@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraza El Mirador | La Mejor Vista de Juigalpa</title>
+    
+    <!-- Google Fonts: Elegancia gastronómica y modernidad -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- GLightbox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ea580c',   /* Naranja Atardecer - Estimula apetito y evoca el paisaje */
+                        secondary: '#0f172a', /* Pizarra Nocturno - Elegancia, contraste */
+                        accent: '#fbbf24',    /* Ámbar - Luces tenues, calidez */
+                        background: '#fafaf9',/* Blanco cálido (Stone 50) */
+                        surface: '#ffffff',   /* Superficies de tarjetas */
+                        text: '#334155'       /* Pizarra medio para lectura suave */
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'], /* Limpia, redonda, moderna */
+                        serif: ['Cormorant Garamond', 'serif'], /* Alta elegancia para menús y títulos */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base styles & Lenis Smooth Scroll */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+        
+        body { background-color: #fafaf9; color: #334155; }
+        
+        /* Typography adjustments */
+        h1, h2, h3, .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        /* SPA Page Transitions */
+        .page-section { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        .page-section.active { display: block; opacity: 1; }
+
+        /* Custom Buttons - Estilo Restaurante Premium */
+        .btn-primary {
+            background-color: #ea580c;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px; /* Bordes menos redondeados para mayor elegancia */
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .btn-primary:hover {
+            background-color: #c2410c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(234, 88, 12, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #ffffff;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border: 1px solid #ffffff;
+            transition: all 0.4s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .btn-outline:hover {
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+
+        /* Nav Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Efecto parallax falso en hero */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.9));
+        }
+
+        /* Items del Menú */
+        .menu-item-dotted {
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item-dotted::after {
+            content: ".................................................................................................................................................";
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            white-space: nowrap;
+            color: #cbd5e1;
+            z-index: -1;
+        }
+        .menu-item-title, .menu-item-price {
+            background-color: #fafaf9; /* Debe coincidir con el fondo para tapar los puntos */
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation (Transparente por defecto, oscura al hacer scroll) -->
+    <nav class="fixed w-full z-40 top-0 transition-all duration-500 bg-transparent py-2" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <span class="text-3xl font-serif font-bold text-white cursor-pointer flex items-center gap-2 tracking-wide" onclick="navigate('home')">
+                        EL MIRADOR
+                    </span>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigate('home')" class="nav-link text-gray-200 hover:text-primary font-medium tracking-wide transition-colors">La Terraza</button>
+                    <button onclick="navigate('menu')" class="nav-link text-gray-200 hover:text-primary font-medium tracking-wide transition-colors">Nuestro Menú</button>
+                    <button onclick="navigate('gallery')" class="nav-link text-gray-200 hover:text-primary font-medium tracking-wide transition-colors">Atmósfera</button>
+                    <button onclick="navigate('reservations')" class="btn-primary">Reservar Mesa</button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-secondary border-t border-gray-800 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2 shadow-2xl">
+                <button onclick="navigate('home')" class="block w-full text-left px-3 py-3 text-white hover:text-primary border-b border-gray-800 font-serif text-xl">La Terraza</button>
+                <button onclick="navigate('menu')" class="block w-full text-left px-3 py-3 text-white hover:text-primary border-b border-gray-800 font-serif text-xl">Nuestro Menú</button>
+                <button onclick="navigate('gallery')" class="block w-full text-left px-3 py-3 text-white hover:text-primary border-b border-gray-800 font-serif text-xl">Atmósfera</button>
+                <button onclick="navigate('reservations')" class="block w-full text-center px-3 py-3 mt-4 text-white bg-primary font-serif text-xl">Reservar</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Action Button (Reservas Rápidas) -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="#" class="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center text-xl shadow-lg hover:bg-secondary hover:scale-110 transition-all duration-300" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main>
+        
+        <!-- ==================== HOME PAGE ==================== -->
+        <div id="page-home" class="page-section active">
+            <!-- Hero -->
+            <section class="relative h-screen flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <!-- Imagen de un restaurante al atardecer/noche -->
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Restaurante con vista" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 hero-overlay"></div>
+                </div>
+                <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16" data-aos="fade-up" data-aos-duration="1200">
+                    <span class="text-accent font-sans tracking-[0.3em] uppercase text-sm mb-6 block">Juigalpa, Chontales</span>
+                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                        Cortes Premium con la Mejor Vista a las Serranías
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 font-sans font-light">
+                        Una experiencia gastronómica donde la brisa de Palo Solo y los atardeceres de Amerrique son el maridaje perfecto.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="navigate('reservations')" class="btn-primary">Asegura tu Mesa</button>
+                        <button onclick="navigate('menu')" class="btn-outline">Ver Menú</button>
+                    </div>
+                </div>
+                
+                <!-- Scroll indicator -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/50 animate-bounce">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </div>
+            </section>
+
+            <!-- Introducción / Atmósfera -->
+            <section class="py-24 bg-background">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                        <div data-aos="fade-right">
+                            <h2 class="text-4xl md:text-5xl font-bold text-secondary mb-6 leading-tight">Mucho más que una cena, un escape en la ciudad.</h2>
+                            <p class="text-text leading-relaxed mb-6 font-sans text-lg font-light">
+                                Ubicados en lo más alto de Juigalpa, nacimos con una premisa simple: honrar la rica tradición ganadera de Chontales ofreciendo los mejores cortes de carne de la región, en un ambiente que invite a la pausa.
+                            </p>
+                            <p class="text-text leading-relaxed mb-8 font-sans text-lg font-light">
+                                Ven a disfrutar del aire fresco, nuestra coctelería de autor y un servicio impecable bajo las estrellas.
+                            </p>
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=400&q=80" alt="Detalle gastronómico" class="w-48 rounded-lg shadow-md">
+                        </div>
+                        <div class="relative" data-aos="fade-left">
+                            <div class="absolute -inset-4 border border-primary/20 rounded-t-full z-0"></div>
+                            <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=80" alt="Corte de carne premium" class="rounded-t-full shadow-2xl relative z-10 w-full h-[600px] object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Banner Highlight -->
+            <section class="py-20 bg-secondary text-white relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                <div class="max-w-4xl mx-auto px-4 text-center relative z-10" data-aos="zoom-in">
+                    <i class="fas fa-wine-glass-alt text-4xl text-accent mb-6"></i>
+                    <h2 class="text-3xl md:text-4xl font-serif mb-6">"El lugar donde las celebraciones se vuelven inolvidables y las cenas de negocios terminan en brindis."</h2>
+                    <p class="font-sans text-gray-400 uppercase tracking-widest text-sm">Abierto todos los días desde las 4:00 PM</p>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ==================== MENU PAGE ==================== -->
+        <div id="page-menu" class="page-section hidden">
+            <!-- Hero Interno Menú -->
+            <section class="pt-32 pb-16 bg-secondary text-white text-center">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4">Nuestro Menú</h1>
+                <p class="text-lg text-gray-400 font-sans tracking-wide">De los pastos de Chontales a tu mesa</p>
+            </section>
+
+            <!-- Contenedor del Menú (Estilo Restaurante Fino) -->
+            <section class="py-20 bg-background">
+                <div class="max-w-5xl mx-auto px-4">
+                    
+                    <!-- Entradas -->
+                    <div class="mb-20" data-aos="fade-up">
+                        <div class="text-center mb-10">
+                            <span class="text-primary font-sans uppercase tracking-[0.2em] text-sm">Para Compartir</span>
+                            <h2 class="text-4xl text-secondary mt-2">Entradas & Tapas</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Tabla de Quesos Chontaleños</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Quesillo trenzado, queso ahumado, maduro frito y tostones.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 380</div>
+                            </div>
+                            
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Carpaccio de Res</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Lomito fino, alcaparras, parmesano, limón y aceite de oliva virgen.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 450</div>
+                            </div>
+
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Ceviche de la Casa</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Corvina fresca marinada en cítricos, leche de tigre y chile cabro.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 320</div>
+                            </div>
+
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Chorizo Parrillero</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Embutido artesanal a la parrilla con chimichurri casero.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 280</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platos Fuertes (Cortes) -->
+                    <div class="mb-20" data-aos="fade-up">
+                        <div class="text-center mb-10">
+                            <span class="text-primary font-sans uppercase tracking-[0.2em] text-sm">La Especialidad</span>
+                            <h2 class="text-4xl text-secondary mt-2">Cortes de Exportación</h2>
+                            <p class="text-sm font-sans text-gray-500 mt-2 italic">Todos nuestros cortes incluyen dos guarniciones a elección.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Churrasco El Mirador (12 oz)</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Corte nacional premium, suave y jugoso. Un clásico de la casa.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 650</div>
+                            </div>
+                            
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Tomahawk Steak</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Corte con hueso para dos personas. Sellado a fuego vivo.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 1,800</div>
+                            </div>
+
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Punta de Jalapeño</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Tierna punta de res bañada en nuestra exclusiva salsa cremosa de jalapeño.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 580</div>
+                            </div>
+
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Ribeye (10 oz)</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Corte con excelente marmoleo que garantiza máximo sabor.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 750</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coctelería -->
+                    <div data-aos="fade-up">
+                        <div class="text-center mb-10">
+                            <span class="text-primary font-sans uppercase tracking-[0.2em] text-sm">Desde la Barra</span>
+                            <h2 class="text-4xl text-secondary mt-2">Coctelería & Vinos</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Atardecer en Amerrique</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Ron Flor de Caña 12, jugo de naranja, sirope de jamaica y romero quemado.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 250</div>
+                            </div>
+                            
+                            <div class="menu-item-dotted flex justify-between items-baseline">
+                                <div class="menu-item-title pr-4">
+                                    <h3 class="text-xl font-bold text-secondary font-serif">Sangría Tinta</h3>
+                                    <p class="text-sm font-sans text-gray-500 font-light mt-1">Vino tinto, brandy, triple sec y frutas frescas de temporada.</p>
+                                </div>
+                                <div class="menu-item-price pl-4 text-primary font-bold">C$ 220</div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-12">
+                            <button onclick="navigate('reservations')" class="btn-primary">Reservar para Degustar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ==================== GALLERY PAGE ==================== -->
+        <div id="page-gallery" class="page-section hidden">
+            <!-- Header Galería -->
+            <section class="pt-32 pb-16 bg-background text-center">
+                <span class="text-primary font-sans uppercase tracking-[0.2em] text-sm">Nuestra Atmósfera</span>
+                <h1 class="text-5xl font-bold text-secondary mt-2 mb-4">Un Vistazo al Mirador</h1>
+                <p class="text-lg text-gray-500 font-sans max-w-2xl mx-auto">Vistas impresionantes de Juigalpa y momentos capturados en nuestra terraza.</p>
+            </section>
+
+            <section class="pb-24 bg-background">
+                <div class="max-w-7xl mx-auto px-4">
+                    <!-- Masonry-ish Grid para Galería -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Gran Imagen -->
+                        <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-lg shadow-sm" data-aos="zoom-in">
+                            <a href="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" class="glightbox">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&h=600&q=80" alt="Interior restaurante" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-secondary/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                    <i class="fas fa-search-plus text-white text-3xl"></i>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Imágenes Pequeñas -->
+                        <div class="group relative overflow-hidden rounded-lg shadow-sm" data-aos="zoom-in" data-aos-delay="100">
+                            <a href="https://images.unsplash.com/photo-1544025162-8956972ee785?auto=format&fit=crop&w=1200&q=80" class="glightbox">
+                                <img src="https://images.unsplash.com/photo-1544025162-8956972ee785?auto=format&fit=crop&w=400&h=300&q=80" alt="Corte de carne" class="w-full h-64 object-cover transform transition duration-700 group-hover:scale-105">
+                            </a>
+                        </div>
+                        
+                        <div class="group relative overflow-hidden rounded-lg shadow-sm" data-aos="zoom-in" data-aos-delay="200">
+                            <a href="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80" class="glightbox">
+                                <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=400&h=300&q=80" alt="Bebidas" class="w-full h-64 object-cover transform transition duration-700 group-hover:scale-105">
+                            </a>
+                        </div>
+
+                        <div class="group relative overflow-hidden rounded-lg shadow-sm" data-aos="zoom-in">
+                            <a href="https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=1200&q=80" class="glightbox">
+                                <img src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=400&h=300&q=80" alt="Mesa" class="w-full h-64 object-cover transform transition duration-700 group-hover:scale-105">
+                            </a>
+                        </div>
+
+                        <div class="md:col-span-2 group relative overflow-hidden rounded-lg shadow-sm" data-aos="zoom-in" data-aos-delay="100">
+                            <a href="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1200&q=80" class="glightbox">
+                                <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=800&h=300&q=80" alt="Atardecer" class="w-full h-64 object-cover transform transition duration-700 group-hover:scale-105">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ==================== RESERVATIONS/CONTACT PAGE ==================== -->
+        <div id="page-reservations" class="page-section hidden">
+            <section class="py-20 bg-background pt-32">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                        
+                        <!-- Formulario de Reservas -->
+                        <div class="bg-surface p-10 rounded-xl shadow-lg border-t-4 border-primary" data-aos="fade-right">
+                            <h2 class="text-4xl font-bold mb-2 text-secondary">Asegura tu Mesa</h2>
+                            <p class="text-gray-500 font-sans mb-8 text-sm">Completa el formulario y te confirmaremos disponibilidad vía WhatsApp.</p>
+                            <form onsubmit="event.preventDefault(); alert('Reserva enviada. Te contactaremos pronto para confirmar.');">
+                                <div class="space-y-6 font-sans">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                                            <input type="text" required class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono / WhatsApp</label>
+                                            <input type="tel" required class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                                            <input type="date" required class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors text-gray-600">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Hora</label>
+                                            <select class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors text-gray-600">
+                                                <option>17:00</option><option>18:00</option><option>19:00</option>
+                                                <option>20:00</option><option>21:00</option><option>22:00</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-span-2 md:col-span-1">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Personas</label>
+                                            <input type="number" min="1" max="20" required class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors" value="2">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Ocasión Especial / Requerimientos</label>
+                                        <textarea rows="2" placeholder="Cumpleaños, aniversario, alergias..." class="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-primary bg-transparent outline-none transition-colors resize-none"></textarea>
+                                    </div>
+
+                                    <button type="submit" class="w-full btn-primary py-4 text-lg mt-4 shadow-md">
+                                        Solicitar Reserva
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Información de Contacto -->
+                        <div data-aos="fade-left" class="flex flex-col justify-center">
+                            <span class="text-primary font-sans uppercase tracking-[0.2em] text-sm mb-2">Visítanos</span>
+                            <h2 class="text-4xl font-bold mb-8 text-secondary">Ubicación y Horarios</h2>
+                            
+                            <div class="space-y-8 font-sans">
+                                <div>
+                                    <h4 class="font-bold text-lg text-secondary mb-2 flex items-center gap-2"><i class="fas fa-map-marker-alt text-primary"></i> Dirección</h4>
+                                    <p class="text-gray-600 leading-relaxed">
+                                        Zona del Mirador Palo Solo, parte alta de la ciudad.<br>
+                                        Juigalpa, Chontales, Nicaragua.
+                                    </p>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-bold text-lg text-secondary mb-2 flex items-center gap-2"><i class="fas fa-clock text-primary"></i> Horario de Apertura</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li class="flex justify-between max-w-xs border-b border-gray-200 py-1"><span>Lunes a Jueves</span> <span>4:00 PM - 11:00 PM</span></li>
+                                        <li class="flex justify-between max-w-xs border-b border-gray-200 py-1"><span>Viernes y Sábado</span> <span>4:00 PM - 1:00 AM</span></li>
+                                        <li class="flex justify-between max-w-xs border-b border-gray-200 py-1"><span>Domingos</span> <span>12:00 MD - 10:00 PM</span></li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-bold text-lg text-secondary mb-2 flex items-center gap-2"><i class="fas fa-phone-alt text-primary"></i> Contacto Directo</h4>
+                                    <p class="text-gray-600">
+                                        Teléfono: +505 8888 0000<br>
+                                        Email: reservas@elmiradorjuigalpa.com
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer Elegante -->
+    <footer class="bg-secondary text-gray-300 py-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            
+            <div class="flex flex-col items-center md:items-start">
+                <span class="text-3xl font-serif font-bold text-white mb-4 tracking-wide">EL MIRADOR</span>
+                <p class="text-sm font-sans font-light leading-relaxed mb-6 max-w-xs">
+                    El destino gastronómico por excelencia en Juigalpa. Cortes premium, mixología y la mejor panorámica de la ciudad.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-start">
+                <h4 class="font-bold mb-6 text-lg text-white font-serif tracking-widest uppercase">Enlaces Rápidos</h4>
+                <ul class="space-y-3 font-sans text-sm font-light">
+                    <li><button onclick="navigate('home')" class="hover:text-primary transition">Inicio</button></li>
+                    <li><button onclick="navigate('menu')" class="hover:text-primary transition">Menú Principal</button></li>
+                    <li><button onclick="navigate('gallery')" class="hover:text-primary transition">Galería</button></li>
+                    <li><button onclick="navigate('reservations')" class="hover:text-primary transition">Reservaciones</button></li>
+                </ul>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-start">
+                <h4 class="font-bold mb-6 text-lg text-white font-serif tracking-widest uppercase">Encuéntranos</h4>
+                <p class="font-sans text-sm font-light leading-relaxed">
+                    Mirador Palo Solo<br>
+                    Juigalpa, Chontales<br>
+                    Nicaragua<br><br>
+                    <span class="text-primary font-medium">reservas@elmiradorjuigalpa.com</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-gray-800 text-xs font-sans font-light flex flex-col md:flex-row justify-between items-center text-gray-500">
+            <p>&copy; 2026 Restaurante Terraza El Mirador. Todos los derechos reservados.</p>
+            <div class="mt-4 md:mt-0 space-x-4">
+                <a href="#" class="hover:text-white transition">Privacidad</a>
+                <a href="#" class="hover:text-white transition">Términos</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+
+    <script>
+        // Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // AOS
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 1000,
+            easing: 'ease-out-cubic',
+        });
+
+        // GLightbox
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true
+        });
+
+        // SPA Routing
+        function navigate(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+                setTimeout(() => {
+                    if(!section.classList.contains('active')){
+                        section.classList.add('hidden');
+                    }
+                }, 500); 
+            });
+
+            const targetPage = document.getElementById('page-' + pageId);
+            targetPage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                targetPage.classList.add('active');
+                AOS.refresh();
+                lenis.scrollTo(0, { immediate: true });
+            }, 50);
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            history.pushState(null, null, '#' + pageId);
+        }
+
+        window.addEventListener('popstate', () => {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            navigate(hash);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            setTimeout(() => navigate(hash), 100);
+        });
+
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Navbar Scroll Effect (Transparente a Sólido oscuro)
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('nav-scrolled');
+                nav.classList.remove('py-2');
+                nav.classList.add('py-0');
+            } else {
+                nav.classList.remove('nav-scrolled');
+                nav.classList.remove('py-0');
+                nav.classList.add('py-2');
+            }
+        });
+    </script>
+</body>
+</html>
